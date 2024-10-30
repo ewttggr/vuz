@@ -1,28 +1,25 @@
 import requests
 
-
-def get_weather(city):
-    api_key = "91ed4d78c461672888c654a356f35bcd"
-    url = f"http://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}&units=metric&lang=ru"
-
+def get_github_user_info(username):
+    url = f"https://api.github.com/users/{username}"
     response = requests.get(url)
 
     if response.status_code == 200:
-        weather_data = response.json()
+        user_data = response.json()
 
-        print(f"Дата: {weather_data['dt']}")
-        print(f"Погода: {weather_data['weather'][0]['description']}")
-        print(f"Иконка: https://openweathermap.org/img/w/{weather_data['weather'][0]['icon']}.png")
-        print(f"Текущая температура: {weather_data['main']['temp']}°C")
-        print(f"Минимальная температура: {weather_data['main']['temp_min']}°C")
-        print(f"Максимальная температура: {weather_data['main']['temp_max']}°C")
-        print(f"Скорость ветра: {weather_data['wind']['speed']} м/с")
-        print(f"Влажность: {weather_data['main']['humidity']}%")
-        print(f"Давление: {weather_data['main']['pressure']} гПа")
+        print(f"Фото: {user_data.get('avatar_url', 'Не указано')}")
+        print(f"Имя: {user_data.get('name', 'Не указано')}")
+        print(f"Логин: {user_data.get('login', 'Не указано')}")
+        print(f"Ссылка на GitHub: {user_data.get('html_url', 'Не указано')}")
+        print(f"Город: {user_data.get('location', 'Не указано')}")
+        print(f"Почта: {user_data.get('email', 'Не указано')}")
+        print(f"Подписчики: {user_data.get('followers', 0)}")
+        print(f"Подписки: {user_data.get('following', 0)}")
+        print(f"Компания: {user_data.get('company', 'Не указано')}")
+        print(f"Биография: {user_data.get('bio', 'Не указано')}")
     else:
-        print(f"Ошибка: не удалось получить данные для города {city}.")
-
+        print(f"Ошибка: пользователь с логином {username} не найден.")
 
 if __name__ == "__main__":
-    city = input("Введите название города: ")
-    get_weather(city)
+    username = input("Введите логин пользователя GitHub: ")
+    get_github_user_info(username)
