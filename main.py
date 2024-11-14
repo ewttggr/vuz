@@ -7,7 +7,14 @@ def get_github_user_info(username):
     if response.status_code == 200:
         user_data = response.json()
 
-        print(f"Фото: {user_data.get('avatar_url', 'Не указано')}")
+        avatar_url = user_info.get('avatar_url', None)
+            if avatar_url:
+                avatar_response = requests.get(avatar_url)
+                if avatar_response.status_code == 200:
+                  avatar_image = Image.open(BytesIO(avatar_response.content))
+                  avatar_image.show()
+                else:
+                  print("нет фото профиля.")
         print(f"Имя: {user_data.get('name', 'Не указано')}")
         print(f"Логин: {user_data.get('login', 'Не указано')}")
         print(f"Ссылка на GitHub: {user_data.get('html_url', 'Не указано')}")
